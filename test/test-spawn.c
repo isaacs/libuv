@@ -119,8 +119,8 @@ static void init_process_options(char* test, uv_exit_cb exit_cb) {
   options.file = exepath;
   options.args = args;
   options.exit_cb = exit_cb;
-  options.uid = -1;
-  options.gid = -1;
+  options.uid = (uid_t)(-1);
+  options.gid = (gid_t)(-1);
 }
 
 

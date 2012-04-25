@@ -1111,14 +1111,14 @@ typedef struct uv_process_options_s {
    * setgid to before executing.
    * Unix only.
    */
-  int gid;
+  gid_t gid;
 
   /*
    * If not -1, this represents the user ID that the subprocess should
    * setuid to before executing.
    * Unix only.
    */
-  int uid;
+  uid_t uid;
 
   /*
    * TODO describe how this works.
