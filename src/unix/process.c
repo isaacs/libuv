@@ -263,6 +263,16 @@ int uv_spawn(uv_loop_t* loop, uv_process_t* process,
       _exit(127);
     }
 
+    if (options.gid && options.gid != -1 && setgid(options.gid)) {
+      perror("setgid()");
+      _exit(127);
+    }
+
+    if (options.uid && options.uid != -1 && setuid(options.uid)) {
+      perror("setuid()");
+      _exit(127);
+    }
+
     environ = options.env;
 
     execvp(options.file, options.args);

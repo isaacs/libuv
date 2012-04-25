@@ -25,6 +25,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef setuid
+# include <pwd.h>
+#endif
+
 static int close_cb_called;
 static int exit_cb_called;
 static uv_process_t process;
@@ -115,6 +119,8 @@ static void init_process_options(char* test, uv_exit_cb exit_cb) {
   options.file = exepath;
   options.args = args;
   options.exit_cb = exit_cb;
+  options.uid = -1;
+  options.gid = -1;
 }
 
 
@@ -513,6 +519,36 @@ TEST_IMPL(environment_creation) {
   }
 
   ASSERT(wcscmp(expected, result) == 0);
+
+  return 0;
+}
+#endif
+
+#ifdef setuid
+TEST_IMPL(setuid) {
+  /* if not root, then this will fail. */
+  int me;
+  me = getuid();
+  if (m != 0) {
+    return 0;
+  }
+
+  init_process_options("spawn_setuid", exit_cb);
+
+  // become the "nobody" user.
+  struct passwd *pw;
+  pw = getpwnam("nobody");
+  options.uid = pw.pw_uid;
+  options.gid = pw.pw_gid;
+
+  r = uv_spawn(uv_default_loop(), &process, options);
+  ASSERT(r == 0);
+
+  r = uv_run(uv_default_loop());
+  ASSERT(r == 0);
+
+  ASSERT(exit_cb_called == 1);
+  ASSERT(close_cb_called == 1);
 
   return 0;
 }

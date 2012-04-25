@@ -1107,6 +1107,20 @@ typedef struct uv_process_options_s {
   char* cwd;
 
   /*
+   * If not -1, this represents the group ID that the subprocess should
+   * setgid to before executing.
+   * Unix only.
+   */
+  int gid;
+
+  /*
+   * If not -1, this represents the user ID that the subprocess should
+   * setuid to before executing.
+   * Unix only.
+   */
+  int uid;
+
+  /*
    * TODO describe how this works.
    */
   int windows_verbatim_arguments;
