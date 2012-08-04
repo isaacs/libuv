@@ -1400,6 +1400,7 @@ typedef enum {
   UV_FS_STAT,
   UV_FS_LSTAT,
   UV_FS_FSTAT,
+  UV_FS_TRUNCATE,
   UV_FS_FTRUNCATE,
   UV_FS_UTIME,
   UV_FS_FUTIME,
@@ -1472,6 +1473,9 @@ UV_EXTERN int uv_fs_fsync(uv_loop_t* loop, uv_fs_t* req, uv_file file,
 
 UV_EXTERN int uv_fs_fdatasync(uv_loop_t* loop, uv_fs_t* req, uv_file file,
     uv_fs_cb cb);
+
+UV_EXTERN int uv_fs_truncate(uv_loop_t* loop, uv_fs_t* req, const char* path,
+    int64_t offset, uv_fs_cb cb);
 
 UV_EXTERN int uv_fs_ftruncate(uv_loop_t* loop, uv_fs_t* req, uv_file file,
     int64_t offset, uv_fs_cb cb);

@@ -459,6 +459,11 @@ int uv_fs_fdatasync(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb) {
 }
 
 
+int uv_fs_truncate(uv_loop_t* loop, uv_fs_t* req, const char* path,
+    int64_t offset, uv_fs_cb cb) {
+  WRAP_EIO(UV_FS_TRUNCATE, eio_truncate, truncate, ARGS2(path, offset))
+}
+
 int uv_fs_ftruncate(uv_loop_t* loop, uv_fs_t* req, uv_file file, int64_t offset,
     uv_fs_cb cb) {
   char* path = NULL;
